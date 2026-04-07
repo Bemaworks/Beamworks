@@ -40,10 +40,22 @@ td:first-child { font-weight: 600; }
 .consult-row { display: flex; align-items: flex-start; gap: 8px; }
 .consult-badge { flex-shrink: 0; font-size: 11px; font-weight: 600; color: #185FA5; background: #E6F1FB; border-radius: 4px; padding: 2px 7px; margin-top: 1px; }
 .consult-text { font-size: 12px; color: #555; line-height: 1.6; }
-.demo-btn { width: 100%; padding: 18px; background: #185FA5; color: #fff; border: none; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.15s; }
+.btn-row { display: flex; gap: 10px; }
+.demo-btn { flex: 2; padding: 18px 8px; background: #185FA5; color: #fff; border: none; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; transition: background 0.15s; }
 .demo-btn:active { background: #0C447C; }
+.inquiry-btn { flex: 1; padding: 18px 8px; background: #fff; color: #185FA5; border: 2px solid #185FA5; border-radius: 12px; font-size: 17px; font-weight: 700; cursor: pointer; font-family: inherit; transition: all 0.15s; }
+.inquiry-btn:active { background: #E6F1FB; }
 
-/* 팝업 */
+.contact-popup { background: #fff; border-radius: 16px; padding: 2rem 1.5rem; width: 90%; max-width: 360px; }
+.contact-title { font-size: 18px; font-weight: 700; color: #185FA5; margin-bottom: 0.25rem; }
+.contact-sub { font-size: 13px; color: #888; margin-bottom: 1.5rem; }
+.contact-item { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border: 1px solid #e0e0e0; border-radius: 12px; margin-bottom: 10px; cursor: pointer; transition: all 0.15s; text-decoration: none; }
+.contact-item:active { background: #E6F1FB; border-color: #185FA5; }
+.contact-info { text-align: left; }
+.contact-name { font-size: 15px; font-weight: 600; color: #222; margin-bottom: 3px; }
+.contact-phone { font-size: 13px; color: #185FA5; }
+.contact-icon { font-size: 22px; }
+.contact-cancel { width: 100%; padding: 13px; border: 1px solid #ddd; background: #fff; border-radius: 10px; font-size: 15px; cursor: pointer; font-family: inherit; color: #666; margin-top: 6px; }
 .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 100; align-items: center; justify-content: center; }
 .overlay.show { display: flex; }
 .popup { background: #fff; border-radius: 16px; padding: 2rem 1.5rem; width: 90%; max-width: 420px; }
@@ -144,7 +156,33 @@ td:first-child { font-weight: 600; }
     </div>
   </div>
 
-  <button class="demo-btn" onclick="openPopup()">데모 접수하기</button>
+  <div class="btn-row">
+    <button class="demo-btn" onclick="openPopup()">데모 접수하기</button>
+    <button class="inquiry-btn" onclick="openContact()">문의하기</button>
+  </div>
+</div>
+
+<!-- 담당자 팝업 -->
+<div class="overlay" id="contact-overlay">
+  <div class="contact-popup">
+    <div class="contact-title">문의하기</div>
+    <div class="contact-sub">담당자에게 바로 연결해드려요</div>
+    <a class="contact-item" href="tel:01058700955">
+      <div class="contact-info">
+        <div class="contact-name">유태술 대리</div>
+        <div class="contact-phone">010-5870-0955</div>
+      </div>
+      <div class="contact-icon">📞</div>
+    </a>
+    <a class="contact-item" href="tel:01026676169">
+      <div class="contact-info">
+        <div class="contact-name">신현호 대리</div>
+        <div class="contact-phone">010-2667-6169</div>
+      </div>
+      <div class="contact-icon">📞</div>
+    </a>
+    <button class="contact-cancel" onclick="closeContact()">닫기</button>
+  </div>
 </div>
 
 <!-- 팝업 -->
@@ -237,6 +275,16 @@ bindGroup('year-group', 'year', v => selYear = v);
 bindGroup('price-group', 'price', v => selPrice = v);
 bindGroup('count-group', 'count', v => selCount = v);
 calc();
+
+function openContact() {
+  document.getElementById('contact-overlay').classList.add('show');
+}
+function closeContact() {
+  document.getElementById('contact-overlay').classList.remove('show');
+}
+document.getElementById('contact-overlay').addEventListener('click', function(e) {
+  if (e.target === this) closeContact();
+});
 
 function openPopup() {
   document.getElementById('overlay').classList.add('show');
